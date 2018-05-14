@@ -5,8 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Chatroom</title>
+        <!-- Materialize CSS https://materializecss.com/getting-started.html -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     </head>
     <body>
-        <h1>This is the index page</h1>
+        <nav>
+            <div class="nav-wrapper cyan darken-2">
+                <!-- Modal Trigger - change username -->
+                <a href="#usernameModal" class="brand-logo center waves-effect waves-light modal-trigger">Logo</a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="#">ROOM</a></li>
+                </ul>
+            </div>
+        </nav>
+            
+        <!-- Set Username Modal Structure -->
+        <div id="usernameModal" class="modal">
+            <div class="modal-content">
+                <div class="input-field">
+                    <input id="usernameInput" type="text" autocomplete="off">
+                    <label class="active" for="username">Your Username</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveUsername" data-target="usernameInput" class="btn modal-trigger">Save</button>
+            </div>
+        </div>
+
+
+
+        <!-- Materialize CSS JavaScript file -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <!-- Custom JS file -->
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </body>
 </html>
