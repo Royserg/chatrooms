@@ -7,18 +7,38 @@
         <title>Chatroom</title>
         <!-- Materialize CSS https://materializecss.com/getting-started.html -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        <!-- Materialize Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Custom Styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     </head>
     <body>
-        <nav>
-            <div class="nav-wrapper cyan darken-2">
-                <!-- Modal Trigger - change username -->
-                <a href="#usernameModal" class="brand-logo center waves-effect waves-light modal-trigger">Logo</a>
-                <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li><a href="#">ROOM</a></li>
-                </ul>
-            </div>
-        </nav>
-            
+        <header>
+            <nav>
+                <div class="nav-wrapper cyan darken-3">
+                    <!-- Modal Trigger - change username -->
+                    <a href="#usernameModal" class="brand-logo center modal-trigger"></a>
+                    <ul id="nav-mobile" class="left">
+                        <li data-target="slide-out" class="sidenav-trigger">
+                            <a href="#">
+                                <i class="small material-icons left">format_list_bulleted</i>
+                                <span class='hide-on-med-and-down'>Chatting</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        
+        <!-- Sidebard color: cyan darken-2  -->
+        <ul id="slide-out" class="sidenav cyan darken-2">
+            <li><a href="#!">Chatting<i class="material-icons">question_answer</i></a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">Other Groups</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        </ul>
+
         <!-- Set Username Modal Structure -->
         <div id="usernameModal" class="modal">
             <div class="modal-content">
@@ -32,7 +52,32 @@
             </div>
         </div>
 
+        <main>
+            <div class="row">
+                <!-- Side Bar -->
+                <div class="col s3 grey">
+                    Side Bar
+                </div>
 
+                <!-- Chat box -->
+                <div class="col s9">
+                    Chat Box
+                </div>
+            </div>
+        </main>
+
+        <div class="divider"></div>
+        <div class="row">
+            <div class="col s9 offset-s3 grey">
+                <input type="text">
+            
+            <!-- <footer class="page-footer grey lighten-4"> -->
+                
+            
+                
+            </div>
+        </div>
+        
 
         <!-- Materialize CSS JavaScript file -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
