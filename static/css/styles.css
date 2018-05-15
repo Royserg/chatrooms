@@ -1,9 +1,47 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow:hidden;
+}
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  height: 90%;
+  display: flex;
+}
+
+main > div {
+  height:100%;
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.chat-container {
+    height:100%;
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
   }
 
-  main {
-    flex: 1 0 auto;
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .chat-bubble {
+    padding: 10px;
+    text-align: center;
+    margin: 5px;
+    border-radius: 10px;
   }
