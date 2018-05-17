@@ -25,7 +25,7 @@
                             <li data-target="slide-out" class="sidenav-trigger">
                                 <a href="#">
                                     <i class="small material-icons left">format_list_bulleted</i>
-                                    <span class='hide-on-med-and-down'>Chatting</span>
+                                    <span id="nav-chatroom" class='hide-on-med-and-down'>Testing</span>
                                 </a>
                             </li>
                         </ul>
@@ -33,12 +33,12 @@
                 </nav>
             </header>
             
-            <!-- Sidebard color: cyan darken-2  -->
+            <!-- SideNav color: cyan darken-2  -->
             <ul id="slide-out" class="sidenav cyan darken-2">
-                <li><a href="#!" class='subheader'>Other ChatRooms<i class="material-icons">question_answer</i></a></li>
+                <li><a class='subheader'>Other ChatRooms<i class="material-icons">question_answer</i></a></li>
                 <li><div class="divider"></div></li>
                 {% for chatroom in chatrooms %}
-                    <li><a class="waves-effect" href="#!">{{ chatroom }}</a></li>
+                    <li><a class="waves-effect chatroom" >{{ chatroom }}</a></li>
                 {% endfor %}
             </ul>
     
@@ -56,20 +56,11 @@
             </div>
     
             <main>
-                <div class="row">
-                    <!-- Side Bar -->
-                    <div class="col s3" style="border-right: 1px solid grey">
-                        Side Bar
-                    </div>
-    
+                <div class="row">    
                     <!-- Chat box -->
                     <div class="col s9 chat-container">
                         <div class="chat-messages">
-                            {% for msg in chatrooms["Testing"] %}
-                                <div class="card-panel chat-bubble">
-                                    {{ msg.text }}
-                                </div>
-                            {% endfor %}
+                            
                         </div>
                         
                         <div class="chat-input">
@@ -81,6 +72,20 @@
                             </form>
                         </div>
                     </div>
+
+                     <!-- Side Bar -->
+                     <div class="col s3" style="border-left: 1px solid grey">
+                        <h5>Members:</h5>
+                        <hr>
+                        <ul class="collection">
+                            <li class="collection-item avatar">
+                                <i class="material-icons circle">person</i>
+                                
+                                <p>First Line <br>
+                                    Second Line
+                                </p>
+                            </li>
+                        </ul>
                 </div>
             </main>
         </div>
