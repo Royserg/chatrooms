@@ -61,8 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // init new request
         const request = new XMLHttpRequest();
-        request.open('POST', '/api/conversation')
-
+        request.open('POST', '/api/conversation');
         // Callback func when request copletes
         request.onload = () => {
 
@@ -139,8 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
             sideN.close();
         }
     })
-
-    // TODO: setup currentChat var in localStorage
 
     
 
