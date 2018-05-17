@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -35,11 +35,6 @@ def index():
     return render_template('index.html', chatrooms=chatrooms)
 
 
-@app.route('/api/<chatroom>', methods=['GET'])
-def get_conversation(chatroom):
-    return chatroom 
-
-
 @socketio.on('send msg')
 def message(data):
     chatroom = data['chatroom']
@@ -47,6 +42,16 @@ def message(data):
     chatrooms[chatroom].append({ 'text': data['text'], 'author': data['author'], 'date': data['date'] })
     emit('announce msg', data, broadcast=True)
 
+
+@app.route('/api/conversation', methods=['POST'])
+def get_conversation():
+    
+    chatroom = request.form.get('chatroom')
+    print(chatroom)
+
+    conversation = chatrooms[chatroom]
+
+    return jsonify({"success": True, "conversation": conversation})
 
 
 if __name__ == "__main__":
