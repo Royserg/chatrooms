@@ -8,25 +8,13 @@ app.config['SECRET_KEY'] = os.urandom(24)
 socketio = SocketIO(app)
 
 chatrooms = {
-    "Testing": [
-        {
-            "text": "First Message",
-            "author": "Jakub",
-            "date": "15.05.2018"
-        },
-        {
-            "text": "Hello Test",
-            "author": "Dariusz",
-            "date": "15.05.2018"
-        }
-    ],
-    "Second": [
-        {
-            "text": "Second Test",
-            "author": "Jakub",
-            "date": "16.05.2018"
-        }
-    ]
+    "Testing": [],
+    "Second": []
+}
+
+users = {
+    "0": { "username": "Kuba", "chatrooms": [] },
+    "1": { "username": "user", "chatrooms": [] }
 }
 
 
@@ -47,7 +35,6 @@ def message(data):
 def get_conversation():
     
     chatroom = request.form.get('chatroom')
-    print(chatroom)
 
     conversation = chatrooms[chatroom]
 
