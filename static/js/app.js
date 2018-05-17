@@ -88,7 +88,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // set chatroom navbar name
-        document.querySelector('#nav-chatroom').innerHTML = localStorage.getItem('chatroom');
+        if (localStorage.getItem('chatroom')) {
+            document.querySelector('#nav-chatroom').innerHTML = localStorage.getItem('chatroom');
+            // saved chatroom should appear active on sideNav
+            document.querySelectorAll('#slide-out li a').forEach(item => {
+                if (item.textContent === localStorage.getItem('chatroom')) {
+                    item.classList.add('cyan', 'darken-3');
+                }
+            })
+        }
+        else {
+            document.querySelector('#nav-chatroom').innerHTML = "Chatrooms";
+        }
+        
 
         const data = new FormData();
         data.append('chatroom', chatroom);
