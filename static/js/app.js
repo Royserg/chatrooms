@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // init username modal
     const usernameModal = document.querySelector('#usernameModal');
     const modalOptions = {
+        dismissible: false,
         onOpenEnd: () => {
             usernameInput.value = usernameNavbar.textContent;
             usernameInput.focus();
@@ -112,10 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // -------END FUNCTIONS---------
 
-    // ------ PULL conversation from API if saves chatroom ------
+    // ------ PULL conversation from API if saved chatroom ------
     if (localStorage.getItem('chatroom')){
         // AJAX request for pulling all messages for that chatroom - function
         pullConversation(localStorage.getItem('chatroom'));
+    } else {
+        document.querySelector('#nav-chatroom').innerHTML = "Choose Chatroom";
     }
 
 
@@ -163,6 +166,12 @@ document.addEventListener('DOMContentLoaded', function() {
         msgForm.onsubmit = () => {
             let text = chatInput.value;
             
+            // prevent sending msg without selected chatroom and setting username
+            if (!localStorage.getItem('chatroom') || !localStorage.getItem('username')) {
+                alert('Username not set or Chatroom not choosen');
+                return false;
+            }
+
             let msg = {
                 'chatroom': localStorage.getItem('chatroom'),
                 'author': localStorage.getItem('username'),
