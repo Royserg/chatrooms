@@ -6,6 +6,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatInput = document.querySelector('#chatInput');
     const msgForm = document.querySelector('#msgForm');
     
+    // Function
+    const handleUsername = (username, id) => {
+        const request = new XMLHttpRequest();
+        request.open('POST', '/api/username');
+        // Callback func when request copletes
+        request.onload = () => {
+            // Extract JSON data from request
+            const data = JSON.parse(request.responseText);
+
+            if (data.success) {
+                console.log('ID:', data.id);
+                // save ID in localStorage
+                localStorage.setItem('id', data.id);
+                
+                // change username on page
+                usernameNavbar.innerHTML = usernameInput.value;
+                // save username in localStorage
+                localStorage.setItem('username', usernameInput.value);
+                // clear input field
+                usernameInput.value = '';
+
+                // close modal
+                M.Modal.getInstance(usernameModal).close();
+
+            }
+            else {
+                alert('That Username already exists, choose different one');
+                
+            }
+        }
+
+        const data = new FormData();
+        data.append('username', username);
+        data.append('id', id)
+        // send request
+        request.send(data);
+    }
+
+
     // init username modal
     const usernameModal = document.querySelector('#usernameModal');
     const modalOptions = {
@@ -13,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         onOpenEnd: () => {
             usernameInput.value = usernameNavbar.textContent;
             usernameInput.focus();
-        }
+        },
     };
     
     const uModal = M.Modal.init(usernameModal, modalOptions);
@@ -24,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ------ SET USERNAME -------
-    // if username not in localStorage
+    // show modal if there is no username
     if (!localStorage.getItem('username'))
         uModal.open();
     else
@@ -34,18 +73,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const changeUsername = (e) => {
         let source = e.originalTarget || e.srcElement ;
-    
         if (e.key === 'Enter' || source.id === "saveUsername") {
             // target username input
             if (usernameInput.value.length > 0) {
-                // change username on page
-                usernameNavbar.innerHTML = usernameInput.value;
-                // save username in localStorage
-                localStorage.setItem('username', usernameInput.value);
-                // clear input field
-                usernameInput.value = '';
-                // close modal
-                M.Modal.getInstance(usernameModal).close();
+                let proceed = true;
+                console.log(proceed)
+
+
+                // create new user on server
+                if (!localStorage.getItem('username')) {
+                    console.log('create new user- AJAX');
+                    handleUsername(usernameInput.value, 'None');
+                    console.log(proceed);
+                } else if (localStorage.getItem('username') != usernameInput.value) {
+                    console.log('update username');
+                    handleUsername(usernameInput.value, localStorage.getItem('id'));
+                    console.log(proceed);
+                }
+                // console.log(proceed);
+                // if (proceed) {
+                //     // change username on page
+                //     usernameNavbar.innerHTML = usernameInput.value;
+                //     // save username in localStorage
+                //     localStorage.setItem('username', usernameInput.value);
+                //     // clear input field
+                //     usernameInput.value = '';
+
+                //     // close modal
+                //     M.Modal.getInstance(usernameModal).close();
+                // }
     
             } else {
                 alert('Provide an username')
@@ -84,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })                
             }
             else {
-                // show error msg 
+                alert('Something went wrong :(')
             }
         }
 
@@ -109,14 +165,18 @@ document.addEventListener('DOMContentLoaded', function() {
         request.send(data);
 
     }
-
     
     // -------END FUNCTIONS---------
 
-    // ------ PULL conversation from API if saved chatroom ------
+    // ------ OPEN/REFRESH PAGE: PULL conversation from API if saved chatroom ------
     if (localStorage.getItem('chatroom')){
         // AJAX request for pulling all messages for that chatroom - function
         pullConversation(localStorage.getItem('chatroom'));
+        // show `main` section of the page
+        document.querySelector('main').style.visibility = "visible";
+
+        // TODO: pull all users that are currently in this chatroom
+
     } else {
         document.querySelector('#nav-chatroom').innerHTML = "Choose Chatroom";
     }
@@ -146,9 +206,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // fetch Conversation from API
             pullConversation(roomName);
 
+            // TODO: PULL USERS that joined conversation
+
             // set navbar chatroom name
             document.querySelector('#nav-chatroom').innerHTML = e.target.textContent;
-            
+
+            // show `main` section of the page
+            document.querySelector('main').style.visibility = "visible";
+
             // close Sidebar
             sideN.close();
         }
