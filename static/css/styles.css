@@ -46,6 +46,7 @@ main > div {
     margin: 5px;
     border-radius: 0 10px 10px 10px;
     width: 30%;
+    margin: 5px auto;
   }
 
   .chat-bubble-author {
