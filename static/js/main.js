@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameNavbar = document.querySelector('.brand-logo');
     const membersList = document.querySelector('#members');
     const chatbox = document.querySelector('.chat-messages');
+    const msgForm = document.querySelector('#msgForm');
 
     // === Initial username modal setup ===
     const usernameModal = document.querySelector('#usernameModal');
@@ -47,8 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const sideNav = M.Sidenav.init(chatroomSidenav, sidenavOptions);
     
-
-
     // =================
     // === Functions ===
     // =================
@@ -59,14 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'chatroom': chatroom,
             'user': user
         };
-
+        // clear chatbox window
         chatbox.innerHTML = "";
-        // Fetch whole conversation from API
-        // TODO:
-
+        // join the room
         socket.emit('join', data);
-        // clear chatbox (removes messages from previous rooms)
-        
         // show chatroom
         document.querySelector('main').style.visibility = 'visible';
     }
@@ -122,7 +117,24 @@ document.addEventListener('DOMContentLoaded', () => {
     var socket = io.connect(`${location.protocol}//${document.domain}:${location.port}`);
 
     socket.on('connect', () => {
-        console.log('websocket connected');
+        
+        msgForm.onsubmit = (e) => {
+            // e.preventDefault();
+
+            let data = {
+                'chatroom': localStorage.getItem('chatroom'),
+                'user': localStorage.getItem('username'),
+                'text': document.querySelector('#chatInput').value,
+                'date': Date.now()
+            }
+
+            // send msg to server
+            socket.emit('send msg', data);
+            // clear chat input
+            document.querySelector('#chatInput').value = '';
+            // prevent form from refreshing
+            return false;
+        }
     });
 
 
@@ -156,11 +168,15 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     });
 
-    // ----------------
-    // socket.on('json', data => {
-
-    // })
-
+    // Broadcast msg to all connected clients
+    socket.on('json', msg => {
+        let bubble = `<div class='card-panel chat-bubble cyan lighten-4'>
+                                ${msg.text}
+                                <span class='chat-bubble-author'>~${msg.user}</span>
+                            </div>`
+                
+        chatbox.innerHTML += bubble;
+    })
 
 
     // =================
@@ -182,9 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     
-
-
-
     // === Setup Event Listeners ====
 
     // when pressing enter - Username Modal
