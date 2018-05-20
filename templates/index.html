@@ -25,7 +25,7 @@
                             <li data-target="slide-out" class="sidenav-trigger">
                                 <a href="#">
                                     <i class="small material-icons left">format_list_bulleted</i>
-                                    <span id="nav-chatroom" class='hide-on-med-and-down'>Testing</span>
+                                    <span id="nav-chatroom" class='hide-on-small-only'>ChatRooms</span>
                                 </a>
                             </li>
                         </ul>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="saveUsername" data-target="usernameInput" class="btn modal-trigger">Save</button>
+                    <button id="saveUsernameBtn" data-target="usernameInput" class="btn modal-trigger">Save</button>
                 </div>
             </div>
             
@@ -79,13 +79,13 @@
                         <h5>Members:</h5>
                         <hr>
                         <ul id='members' class="collection">
-                            <li class="collection-item avatar">
+                            <!-- <li class="collection-item avatar">
                                 <i class="material-icons circle">person</i>
                                 
                                 <p>First Line <br>
                                     Second Line
                                 </p>
-                            </li>
+                            </li> -->
                         </ul>
                 </div>
             </main>
@@ -95,7 +95,9 @@
 
         <!-- Materialize CSS JavaScript file -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <!-- Axios CDN https://github.com/axios/axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <!-- Custom JS file -->
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>
