@@ -110,6 +110,18 @@ def add_room(data):
     emit('add room', data, broadcast=True)
 
 
+@socketio.on('change username')
+def change_username(data):
+    room = data['chatroom']
+    old = data['old']
+    new = data['new']
+    # get index of user to change
+    index = CHATROOMS[room]['users'].index(old)
+    # change username in global variable
+    CHATROOMS[room]['users'][index] = new
+
+    emit('change username', {'members': CHATROOMS[room]['users'] }, room=room)
+
 
 if __name__ == "__main__":
     app.config["DEBUG"] = True

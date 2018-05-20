@@ -115,6 +115,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // prevent submitting empty input
             if (usernameInput.value.length > 0) {
+                // change username if assigned to a room
+                if (localStorage.getItem('username') && localStorage.getItem('chatroom')) {
+                    let data = {
+                        'chatroom': localStorage.getItem('chatroom'),
+                        'old': localStorage.getItem('username'),
+                        'new': usernameInput.value
+                    }
+                    // emit change
+                    socket.emit('change username', data);
+                }
                 // Save username in localStorage
                 localStorage.setItem('username', usernameInput.value); 
                 // Show username on Navbar
@@ -214,6 +224,20 @@ document.addEventListener('DOMContentLoaded', () => {
         let chatroom = `<li class='chatroom'><a class="waves-effect">${data.room}</a></li>`
         // add to the list
         chatroomList.innerHTML += chatroom;
+    })
+
+    // change username of user
+    socket.on('change username', data => {
+        // clear list of members
+        membersList.innerHTML = "";
+        // refresh members
+        data.members.forEach(member => {
+            let item = `<li class="collection-item">
+                            ${member}
+                        </li>`
+
+            membersList.innerHTML += item;
+        })
     })
 
     // =================
