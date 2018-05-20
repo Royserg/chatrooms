@@ -1,6 +1,7 @@
 
 // When DOM loaded
 document.addEventListener('DOMContentLoaded', function() {
+    
     let usernameNavbar = document.querySelector('.brand-logo');
     const usernameInput = document.querySelector('#usernameInput'); 
     const chatInput = document.querySelector('#chatInput');
@@ -90,19 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     handleUsername(usernameInput.value, localStorage.getItem('id'));
                     console.log(proceed);
                 }
-                // console.log(proceed);
-                // if (proceed) {
-                //     // change username on page
-                //     usernameNavbar.innerHTML = usernameInput.value;
-                //     // save username in localStorage
-                //     localStorage.setItem('username', usernameInput.value);
-                //     // clear input field
-                //     usernameInput.value = '';
-
-                //     // close modal
-                //     M.Modal.getInstance(usernameModal).close();
-                // }
-    
             } else {
                 alert('Provide an username')
             }
@@ -137,7 +125,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     div.innerHTML = msg.text + span;
 
                     document.querySelector('.chat-messages').append(div);
-                })                
+                })
+                
+                // clear members list
+                document.querySelector('#members').innerHTML = "";
+                // show list of joined users
+                data.members.forEach(user => {
+                    const li = 
+                        `<li class="collection-item avatar">
+                            <i class="material-icons circle">person</i>
+                            <p>${user}</p>
+                        </li>`;
+                    
+                    document.querySelector('#members').innerHTML += li;
+
+                })
+
+                // send to socket username of joined
+                socket.send("User has joined");
             }
             else {
                 alert('Something went wrong :(')
@@ -161,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const data = new FormData();
         data.append('chatroom', chatroom);
+        data.append('userID', localStorage.getItem('id'));
         // send request
         request.send(data);
 
@@ -266,6 +272,12 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.chat-messages').append(div);
         }
     })
+
+    
+    socket.on('refresh members', data => {
+        console.log('REFRESHHH');
+    })
+
   });
 
 
