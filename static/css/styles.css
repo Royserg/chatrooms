@@ -33,25 +33,37 @@ main > div {
     flex-direction: column;
   }
 
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+}
 
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-  }
+.chat-bubble {
+  position: relative;
+  padding: 10px;
+  padding-bottom: 20px;
+  text-align: center;
+  margin: 5px;
+  border-radius: 0 10px 10px 10px;
+  width: 40%;
+  margin: 5px auto;
+}
 
-  .chat-bubble {
-    position: relative;
-    padding: 10px;
-    text-align: center;
-    margin: 5px;
-    border-radius: 0 10px 10px 10px;
-    width: 30%;
-    margin: 5px auto;
-  }
+.chat-bubble-author {
+  position: absolute;
+  font-size: 0.7em;
+  bottom: 2px;
+  right: 10px;
+}
 
-  .chat-bubble-author {
-    position: absolute;
-    font-size: 0.7em;
-    bottom: 2px;
-    right: 10px;
-  }
+.sidenav .divider {
+  margin: 0 0 5px 0;
+}
+
+.input-field #chatroomInput {
+  color: #fff;
+}
+
+.input-field #chatroomInput:focus + label {
+  color: #fff;
+}

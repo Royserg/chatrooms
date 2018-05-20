@@ -15,7 +15,7 @@ COUNTER = 0
 CHATROOMS = {
     "Testing": {
         "users": [],
-        "messages": [{"user": "Jakub", "text": "hello,world", "date": "2018-05-13"}]
+        "messages": []
     },
     "Second": {
         "users": [],
@@ -59,7 +59,10 @@ def join(data):
         "members": CHATROOMS[room]['users'],
         "messages": CHATROOMS[room]['messages']
     }
-    emit('on_chatroom_change', data, room=room)
+    # send only to joining user
+    emit('on_chatroom_change', data, broadcast=False)
+    # send to everybody else without messages
+    emit('on_chatroom_change', {"msg": user + ' has joined', "members": CHATROOMS[room]['users']}, room=room, include_self=False)
 
 
 @socketio.on('leave')
@@ -95,6 +98,16 @@ def send_msg(data):
 
     send(msg, room=room, json=True)
 
+
+@socketio.on('add room')
+def add_room(data):
+    room = data['room']
+    print(room)
+
+    # add room to variable
+    CHATROOMS[room] = {"users": [], "messages": []}
+
+    emit('add room', data, broadcast=True)
 
 
 

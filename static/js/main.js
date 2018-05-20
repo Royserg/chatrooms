@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const membersList = document.querySelector('#members');
     const chatbox = document.querySelector('.chat-messages');
     const msgForm = document.querySelector('#msgForm');
+    const chatroomInput = document.querySelector('#chatroomInput');
+    const chatroomList = document.querySelector('#slide-out');
 
     // === Initial username modal setup ===
     const usernameModal = document.querySelector('#usernameModal');
@@ -17,6 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const uModal = M.Modal.init(usernameModal, modalOptions);
     
+    // === Init bottom modal for adding chatroom ===
+    const roomModal = document.querySelector('#roomModal');
+    // const modalOptions = {
+    //     onOpenEnd: () => {
+    //         usernameInput.value = usernameNavbar.textContent;
+    //         usernameInput.focus();
+    //     }
+    // }
+    const rModal = M.Modal.init(roomModal);
+
     // === Chatrooms SideNav setup ===
     const chatroomSidenav = document.querySelector('.sidenav');
     const sidenavOptions = {
@@ -24,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         onOpenStart: () => {
             axios.get('/api/chatrooms')
             .then(res => {
-                const chatroomList = document.querySelector('#slide-out');
                 const chatrooms = document.querySelectorAll('.chatroom');
                 // clear list of chatrooms
                 chatrooms.forEach(room => {
@@ -69,6 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const changeChatroom = (e) => {
         // target only chatrooms
+        if (e.target.id === "addRoom") {
+            // open modal for adding new room
+            rModal.open();
+            // focus on input
+            chatroomInput.focus();
+        }
         if (e.target.className === "waves-effect") {
             // leave previous room
             if (localStorage.getItem('chatroom')) {
@@ -85,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('chatroom', e.target.textContent);
             // close modal
             sideNav.close();
-
 
             joinChatroom(e.target.textContent, localStorage.getItem('username'));
         }
@@ -112,6 +128,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }        
     }
 
+    // Add Chatroom submitting bottom modal
+    const addChatroom = () => {
+        // Name shouldn't be empty
+        if (chatroomInput.value.length > 0) {
+            // add chatroom
+            socket.emit('add room', {'room': chatroomInput.value});
+            // clear input
+            chatroomInput.value = '';
+            // close modal
+            rModal.close();
+        }
+
+        return false;
+    }
+
 
     // Connect to websocket
     var socket = io.connect(`${location.protocol}//${document.domain}:${location.port}`);
@@ -120,12 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         msgForm.onsubmit = (e) => {
             // e.preventDefault();
+            let time = new Date().toLocaleTimeString();
 
             let data = {
                 'chatroom': localStorage.getItem('chatroom'),
                 'user': localStorage.getItem('username'),
                 'text': document.querySelector('#chatInput').value,
-                'date': Date.now()
+                'date': time
             }
 
             // send msg to server
@@ -140,11 +172,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('on_chatroom_change', data => {
         // fetch whole conversation, add if chatbox is empty
-        if (data.messages && !chatbox.innerHTML) {
+        if (data.messages) {
             data.messages.forEach(msg => {
                 let bubble = `<div class='card-panel chat-bubble cyan lighten-4'>
                                 ${msg.text}
-                                <span class='chat-bubble-author'>~${msg.user}</span>
+                                <span class='chat-bubble-author'>${msg.date}~${msg.user}</span>
                             </div>`
                 
                 chatbox.innerHTML += bubble;
@@ -159,9 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
         membersList.innerHTML = "";
         // update members
         data.members.forEach(member => {
-            let item = `<li class="collection-item avatar">
-                            <i class="material-icons circle">person</i>
-                            <p>${member}</p>
+            let item = `<li class="collection-item">
+                            ${member}
                         </li>`
 
             membersList.innerHTML += item;
@@ -172,12 +203,18 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('json', msg => {
         let bubble = `<div class='card-panel chat-bubble cyan lighten-4'>
                                 ${msg.text}
-                                <span class='chat-bubble-author'>~${msg.user}</span>
+                                <span class='chat-bubble-author'>${msg.date}~${msg.user}</span>
                             </div>`
                 
         chatbox.innerHTML += bubble;
     })
 
+    // add new chatroom to the list
+    socket.on('add room', data => {
+        let chatroom = `<li class='chatroom'><a class="waves-effect">${data.room}</a></li>`
+        // add to the list
+        chatroomList.innerHTML += chatroom;
+    })
 
     // =================
     // === Start App ===
@@ -205,7 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // pressing save button - Username Modal
     document.querySelector('#saveUsernameBtn').onclick = setUsername;
     // attach event to list of chatrooms 
-    document.querySelector('#slide-out').onclick = changeChatroom
-
+    document.querySelector('#slide-out').onclick = changeChatroom;
+    // form adding new Chatroom
+    document.querySelector('#chatroomForm').onclick = addChatroom;
 })
 

@@ -36,10 +36,8 @@
             <!-- SideNav color: cyan darken-2  -->
             <ul id="slide-out" class="sidenav cyan darken-2">
                 <li><a class='subheader'>Other ChatRooms<i class="material-icons">question_answer</i></a></li>
+                <li><a id="addRoom" class="waves-effect teal darken-2"><i class="material-icons">add_circle</i>Add Room</a></l>
                 <li><div class="divider"></div></li>
-                {% for chatroom in chatrooms %}
-                    <li><a class="waves-effect chatroom" >{{ chatroom }}</a></li>
-                {% endfor %}
             </ul>
     
             <!-- Set Username Modal Structure -->
@@ -52,6 +50,28 @@
                 </div>
                 <div class="modal-footer">
                     <button id="saveUsernameBtn" data-target="usernameInput" class="btn modal-trigger">Save</button>
+                </div>
+            </div>
+
+            <!-- Bottom Modal Structure -->
+            <div id="roomModal" class="modal bottom-sheet teal darken-2">
+                <div class="modal-content">
+                    <div class="row">
+                        <form id="chatroomForm" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6 offset-s3">
+                                    <input id="chatroomInput" autocomplete="off">
+                                    <label class='active' for="chatroomInput">New ChatRoom</label>
+                                </div>
+                                <div class="col s3">
+                                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                                        Add 
+                                        <i class="material-icons right">add_circle</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             
@@ -76,16 +96,10 @@
 
                      <!-- Side Bar -->
                      <div class="col s3" style="border-left: 1px solid grey">
-                        <h5>Members:</h5>
+                        <h5 class="center-align">Members</h5>
                         <hr>
-                        <ul id='members' class="collection">
-                            <!-- <li class="collection-item avatar">
-                                <i class="material-icons circle">person</i>
-                                
-                                <p>First Line <br>
-                                    Second Line
-                                </p>
-                            </li> -->
+                        <ul id='members' class="collection center-align">
+                            <!-- fetched -->
                         </ul>
                 </div>
             </main>
