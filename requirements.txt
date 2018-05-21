@@ -1,0 +1,10 @@
+altgraph==0.15
+future==0.16.0
+macholib==1.9
+nltk==3.2.5
+pefile==2017.11.5
+PyInstaller==3.3.1
+pypiwin32==220
+six==1.11.0
+virtualenv==15.1.0
+virtualenvwrapper-win==1.2.5

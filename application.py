@@ -144,8 +144,5 @@ def on_disconnect():
 
 
 
-
-
 if __name__ == "__main__":
-    app.config["DEBUG"] = True
     socketio.run(app)
