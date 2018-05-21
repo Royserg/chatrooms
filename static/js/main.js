@@ -174,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('on_chatroom_change', data => {
+        
         // fetch whole conversation, add if chatbox is empty
         if (data.messages) {
             data.messages.forEach(msg => {
@@ -216,8 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Broadcast msg to all connected clients
     socket.on('json', msg => {
-        let customStyle = msg.user === localStorage.getItem('username') ? 'cyan lighten-2 msg-user' : 'cyan lighten-4' ;
+        // remove tooltip funcionality, adding after new msg appended (boxes were not disappearing)
+        document.querySelectorAll('.tooltipped').forEach(tool => {
+            M.Tooltip.getInstance(tool).destroy();
+        })
 
+        let customStyle = msg.user === localStorage.getItem('username') ? 'cyan lighten-2 msg-user' : 'cyan lighten-4' ;
+        
         let bubble = `<div 
                         class='tooltipped card-panel chat-bubble ${customStyle}'
                         data-position="top" 
@@ -226,13 +232,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${msg.text}
                             <span class='chat-bubble-author'>~${msg.user}</span>
                         </div>`
-        
+
         chatbox.innerHTML += bubble;
         // scroll div to the bottom
         chatbox.scrollTop = chatbox.scrollHeight;
-        
+
         var tip = document.querySelectorAll('.tooltipped');
         var tooltip = M.Tooltip.init(tip);
+        
     })
     
 
