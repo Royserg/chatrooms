@@ -21,12 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // === Init bottom modal for adding chatroom ===
     const roomModal = document.querySelector('#roomModal');
-    // const modalOptions = {
-    //     onOpenEnd: () => {
-    //         usernameInput.value = usernameNavbar.textContent;
-    //         usernameInput.focus();
-    //     }
-    // }
     const rModal = M.Modal.init(roomModal);
 
     // === Chatrooms SideNav setup ===
@@ -158,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var socket = io.connect(`${location.protocol}//${document.domain}:${location.port}`);
 
     socket.on('connect', () => {
-        
+        // When connected attach listener to messaging form
         msgForm.onsubmit = (e) => {
             // e.preventDefault();
             let time = new Date().toLocaleTimeString();
@@ -178,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
     });
-
 
     socket.on('on_chatroom_change', data => {
         // fetch whole conversation, add if chatbox is empty
@@ -202,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // update members
         data.members.forEach(member => {
             let item = `<li class="collection-item">
-                            ${member}
+                            ${member.name}
                         </li>`
 
             membersList.innerHTML += item;
@@ -233,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // refresh members
         data.members.forEach(member => {
             let item = `<li class="collection-item">
-                            ${member}
+                            ${member.name}
                         </li>`
 
             membersList.innerHTML += item;

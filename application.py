@@ -13,14 +13,10 @@ socketio = SocketIO(app)
 
 COUNTER = 0
 CHATROOMS = {
-    "Testing": {
+    "Everything": {
         "users": [],
         "messages": []
     },
-    "Second": {
-        "users": [],
-        "messages": []
-    }
 }
 
 
@@ -48,9 +44,10 @@ def join(data):
     user = data['user']
     
     # Add user to memory
-    if user not in CHATROOMS[room]['users']:
-        CHATROOMS[room]['users'].append(user)
-
+    # if user not in CHATROOMS[room]['users']:
+    CHATROOMS[room]['users'].append({'id': request.sid, 'name':user})
+    
+    
     # add user to the room
     join_room(room)
 
@@ -68,17 +65,17 @@ def join(data):
 @socketio.on('leave')
 def leave(data):
     room = data['chatroom']
-    user = data['user']
-
-    # Remove user from memory
-    if user in CHATROOMS[room]['users']:
-        CHATROOMS[room]['users'].remove(user)
+    name = data['user']
     
+    for member in CHATROOMS[room]['users']:
+        if request.sid == member['id']:
+            CHATROOMS[room]['users'].remove({'id': request.sid, 'name': name})
+
     # remove user from the room
     leave_room(room)
 
     data = {
-        "msg": user + ' has left',
+        "msg": name + ' has left',
         "members": CHATROOMS[room]['users']
     }
     emit('on_chatroom_change', data, room=room)
@@ -102,7 +99,6 @@ def send_msg(data):
 @socketio.on('add room')
 def add_room(data):
     room = data['room']
-    print(room)
 
     # add room to variable
     CHATROOMS[room] = {"users": [], "messages": []}
@@ -116,11 +112,38 @@ def change_username(data):
     old = data['old']
     new = data['new']
     # get index of user to change
-    index = CHATROOMS[room]['users'].index(old)
-    # change username in global variable
-    CHATROOMS[room]['users'][index] = new
+    for user in CHATROOMS[room]['users']:
+        if user['name'] == old:
+            user['name'] = new
 
     emit('change username', {'members': CHATROOMS[room]['users'] }, room=room)
+
+
+@socketio.on('disconnect')
+def on_disconnect():
+
+    chatroom = ""
+    name = ""
+
+    # find chatroom and name of the user
+    for room in CHATROOMS:
+        for user in CHATROOMS[room]['users']:
+            if user['id'] == request.sid:
+                name = user['name']
+                chatroom = room
+        
+    data = {
+        'user': name,
+        'chatroom': chatroom
+        }
+
+    # pass info to leave room
+    if name and chatroom:
+        leave(data)
+
+
+
+
 
 
 if __name__ == "__main__":
