@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let chatroom = '';
 
                     if (localStorage.getItem('chatroom') === room)
-                        chatroom = `<li class='chatroom'><a class="waves-effect cyan darken-3" >${room}</a></li>`;
+                        chatroom = `<li class='chatroom'><a class="waves-effect cyan lighten-1" >${room}</a></li>`;
                     else
                         chatroom = `<li class='chatroom'><a class="waves-effect" >${room}</a></li>`;
 
@@ -177,13 +177,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // fetch whole conversation, add if chatbox is empty
         if (data.messages) {
             data.messages.forEach(msg => {
-                let bubble = `<div class='card-panel chat-bubble cyan lighten-4'>
+                let customStyle = msg.user === localStorage.getItem('username') ? 'cyan lighten-2 msg-user' : 'cyan lighten-4' ;
+
+                let bubble = `<div 
+                                class='tooltipped card-panel chat-bubble ${customStyle}'
+                                data-position="top" 
+                                data-tooltip="${msg.date}"
+                                >
                                 ${msg.text}
-                                <span class='chat-bubble-author'>${msg.date}~${msg.user}</span>
+                                <span class='chat-bubble-author'>~${msg.user}</span>
                             </div>`
                 
                 chatbox.innerHTML += bubble;
             })
+
             // scroll div to the bottom
             chatbox.scrollTop = chatbox.scrollHeight;
         }
@@ -202,19 +209,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
             membersList.innerHTML += item;
         })
+
+        var tip = document.querySelectorAll('.tooltipped');
+        var tooltip = M.Tooltip.init(tip);
     });
 
     // Broadcast msg to all connected clients
     socket.on('json', msg => {
-        let bubble = `<div class='card-panel chat-bubble cyan lighten-4'>
-                                ${msg.text}
-                                <span class='chat-bubble-author'>${msg.date}~${msg.user}</span>
-                            </div>`
-                
+        let customStyle = msg.user === localStorage.getItem('username') ? 'cyan lighten-2 msg-user' : 'cyan lighten-4' ;
+
+        let bubble = `<div 
+                        class='tooltipped card-panel chat-bubble ${customStyle}'
+                        data-position="top" 
+                        data-tooltip="${msg.date}"
+                        >
+                            ${msg.text}
+                            <span class='chat-bubble-author'>~${msg.user}</span>
+                        </div>`
+        
         chatbox.innerHTML += bubble;
         // scroll div to the bottom
         chatbox.scrollTop = chatbox.scrollHeight;
+        
+        var tip = document.querySelectorAll('.tooltipped');
+        var tooltip = M.Tooltip.init(tip);
     })
+    
 
     // add new chatroom to the list
     socket.on('add room', data => {
@@ -266,5 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#slide-out').onclick = changeChatroom;
     // form adding new Chatroom
     document.querySelector('#chatroomForm').onclick = addChatroom;
+    // target chat bubbles
+    // chatbox.onhover = () => console.log('clicked');
 })
 

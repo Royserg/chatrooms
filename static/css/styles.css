@@ -36,17 +36,21 @@ main > div {
 .chat-messages {
   flex: 1;
   overflow-y: auto;
+
 }
 
 .chat-bubble {
   position: relative;
-  padding: 10px;
+  padding-top: 15px;
   padding-bottom: 20px;
   text-align: center;
-  margin: 5px;
   border-radius: 0 10px 10px 10px;
-  width: 40%;
-  margin: 5px auto;
+  width: 55%;
+  margin: 10px 0;
+}
+
+.chatroom {
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .chat-bubble-author {
@@ -56,8 +60,13 @@ main > div {
   right: 10px;
 }
 
+.sidenav li a, #addRoom > i {
+  color: white;
+}
+
+
 .sidenav .divider {
-  margin: 0 0 5px 0;
+  margin: 0;
 }
 
 .input-field #chatroomInput {
@@ -67,3 +76,8 @@ main > div {
 .input-field #chatroomInput:focus + label {
   color: #fff;
 }
+
+.msg-user {
+  margin-left: auto;
+}
+
