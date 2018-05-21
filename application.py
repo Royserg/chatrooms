@@ -9,7 +9,7 @@ eventlet.monkey_patch()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
-socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app)
 
 COUNTER = 0
 CHATROOMS = {
