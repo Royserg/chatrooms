@@ -184,6 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 chatbox.innerHTML += bubble;
             })
+            // scroll div to the bottom
+            chatbox.scrollTop = chatbox.scrollHeight;
         }
 
         // append info about user action
@@ -210,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>`
                 
         chatbox.innerHTML += bubble;
+        // scroll div to the bottom
+        chatbox.scrollTop = chatbox.scrollHeight;
     })
 
     // add new chatroom to the list
