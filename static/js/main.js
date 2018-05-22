@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbox = document.querySelector('.chat-messages');
     const msgForm = document.querySelector('#msgForm');
     const chatroomInput = document.querySelector('#chatroomInput');
-    const chatroomList = document.querySelector('#slide-out');
+    const chatroomList = document.querySelector('#slide-out div');
     
     const notificationSound = document.querySelector('#notificationSound');
 

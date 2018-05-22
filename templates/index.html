@@ -37,9 +37,12 @@
             
             <!-- SideNav color: cyan darken-2  -->
             <ul id="slide-out" class="sidenav cyan darken-2">
-                <li><a class='subheader'>Other ChatRooms<i class="material-icons">question_answer</i></a></li>
-                <li><a id="addRoom" class="waves-effect teal darken-2"><i class="material-icons">add_circle</i>Add Room</a></l>
-                <li><div class="divider"></div></li>
+                <div>
+                    <li><a class='subheader'>Other ChatRooms<i class="material-icons">question_answer</i></a></li>
+                    <li><div class="divider"></div></li>
+                </div>
+                
+                <li class="addRoom"><a id="addRoom" class="waves-effect teal darken-2"><i class="material-icons">add_circle</i>Add Room</a></l>
             </ul>
     
             <!-- Set Username Modal Structure -->
@@ -61,7 +64,7 @@
                     <div class="row">
                         <form id="chatroomForm" class="col s12">
                             <div class="row">
-                                <div class="input-field col s6 offset-s3">
+                                <div class="input-field col s8 offset-s1 m6 offset-m3">
                                     <input id="chatroomInput" autocomplete="off">
                                     <label class='active' for="chatroomInput">New ChatRoom</label>
                                 </div>

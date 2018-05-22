@@ -64,6 +64,15 @@ main > div {
   color: white;
 }
 
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.addRoom {
+  order: 1;
+}
 
 .sidenav .divider {
   margin: 0;
@@ -80,4 +89,5 @@ main > div {
 .msg-user {
   margin-left: auto;
 }
+
 
