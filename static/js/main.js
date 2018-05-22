@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgForm = document.querySelector('#msgForm');
     const chatroomInput = document.querySelector('#chatroomInput');
     const chatroomList = document.querySelector('#slide-out');
+    
+    const notificationSound = document.querySelector('#notificationSound');
 
     // === Initial username modal setup ===
     const usernameModal = document.querySelector('#usernameModal');
@@ -237,9 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // scroll div to the bottom
         chatbox.scrollTop = chatbox.scrollHeight;
 
-        var tip = document.querySelectorAll('.tooltipped');
-        var tooltip = M.Tooltip.init(tip);
+        let tip = document.querySelectorAll('.tooltipped');
+        let tooltip = M.Tooltip.init(tip);
         
+        // audio notification for others
+        if (msg.user !== localStorage.getItem('username')) notificationSound.play();
+
     })
     
 
@@ -293,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#slide-out').onclick = changeChatroom;
     // form adding new Chatroom
     document.querySelector('#chatroomForm').onclick = addChatroom;
-    // target chat bubbles
-    // chatbox.onhover = () => console.log('clicked');
+    
+    
 })
 
