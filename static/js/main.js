@@ -155,22 +155,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('connect', () => {
         // When connected attach listener to messaging form
-        msgForm.onsubmit = (e) => {
-            // e.preventDefault();
-            let time = new Date().toLocaleTimeString();
+        msgForm.onsubmit = () => {
+            // prevent sending empty msg
+            if (document.querySelector('#chatInput').value.length > 0) {
 
-            let data = {
-                'chatroom': localStorage.getItem('chatroom'),
-                'user': localStorage.getItem('username'),
-                'text': document.querySelector('#chatInput').value,
-                'date': time
+                let time = new Date().toLocaleTimeString();
+    
+                let data = {
+                    'chatroom': localStorage.getItem('chatroom'),
+                    'user': localStorage.getItem('username'),
+                    'text': document.querySelector('#chatInput').value,
+                    'date': time
+                }
+    
+                // send msg to server
+                socket.emit('send msg', data);
+                // clear chat input
+                document.querySelector('#chatInput').value = '';
             }
-
-            // send msg to server
-            socket.emit('send msg', data);
-            // clear chat input
-            document.querySelector('#chatInput').value = '';
-            // prevent form from refreshing
+            
+            // prevent form from submitting
             return false;
         }
     });
@@ -301,4 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     
 })
+
+// TODO: send notifications when somebody writes a msg
 
