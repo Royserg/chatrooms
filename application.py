@@ -13,7 +13,7 @@ socketio = SocketIO(app)
 
 COUNTER = 0
 CHATROOMS = {
-    "Everything": {
+    "Global": {
         "users": [],
         "messages": []
     },
@@ -42,12 +42,19 @@ def join(data):
     """Join chatroom"""
     room = data['chatroom']
     user = data['user']
-    
+
+
     # Add user to memory
     # if user not in CHATROOMS[room]['users']:
-    CHATROOMS[room]['users'].append({'id': request.sid, 'name':user})
-    
-    
+    try:
+        CHATROOMS[room]['users'].append({'id': request.sid, 'name':user})
+    except KeyError:
+        room = "Global"
+        CHATROOMS[room]['users'].append({'id': request.sid, 'name':user})
+        # TODO: not changing room name on website
+
+    # TODO: check if user is already added to that room - show some error or sth
+
     # add user to the room
     join_room(room)
 
