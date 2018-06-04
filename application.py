@@ -90,6 +90,10 @@ def send_msg(data):
         'date': data['date']
     }
 
+    # when 100 msg for particular room, remove first one
+    if len(CHATROOMS[room]['messages']) > 99:
+        CHATROOMS[room]['messages'].pop(0)
+
     # Add msg to global variable
     CHATROOMS[room]['messages'].append(msg)
 
