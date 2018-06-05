@@ -200,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // place chatroom name on the navbar
             document.querySelector('#nav-chatroom').innerHTML = data.room;
             // save it into localStorage
-            console.log(data.room);
             localStorage.setItem('chatroom', data.room);
 
             // scroll div to the bottom
@@ -278,6 +277,35 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
+    // username already exists
+    socket.on('username exists', () => {
+        console.log('This Username already exists ! change username and refresh the site');
+
+        // hide possibility to change room
+        document.querySelector('#nav-mobile').style.display = 'none';
+
+        // show information about existing username: change username + refresh site
+        document.querySelector('main').innerHTML = 
+                                        `<div class="row">
+                                            <div class="col s6 m6" style="margin:auto">
+                                                <div class="card red darken-4">
+                                                    <div class="card-content white-text">
+                                                        <span class="card-title">An Error Occured</span>
+                                                        <p>
+                                                            Whether:
+                                                            <ul>
+                                                                <li>-Username already exists. Please change username and refresh the site</li>
+                                                                <li>-Application is already opened in another tab</li>
+                                                            </ul>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        `
+                                        
+    })
+
     // =================
     // === Start App ===
     // =================
@@ -310,6 +338,4 @@ document.addEventListener('DOMContentLoaded', () => {
     
     
 })
-
-// TODO: send notifications when somebody writes a msg
 

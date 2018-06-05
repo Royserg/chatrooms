@@ -42,32 +42,36 @@ def join(data):
     """Join chatroom"""
     room = data['chatroom']
     user = data['user']
+    user_exists = False
 
-
-    # Add user to memory
-    # if user not in CHATROOMS[room]['users']:
-    try:
-        CHATROOMS[room]['users'].append({'id': request.sid, 'name':user})
-    except KeyError:
+    # room doesn't exist - change to global
+    if room not in CHATROOMS:
         room = "Global"
+
+    # user is already added to that room
+    for member in CHATROOMS[room]['users']:
+        if member['name'] == user:
+            user_exists = True
+
+    if user_exists:
+        # emit info to the user if username already in the room or another tab opened
+        emit('username exists', broadcast=False)
+    else:
+        # add user to users list in the room
         CHATROOMS[room]['users'].append({'id': request.sid, 'name':user})
-        # TODO: not changing room name on website
+        # add user to the room
+        join_room(room)
 
-    # TODO: check if user is already added to that room - show some error or sth
-
-    # add user to the room
-    join_room(room)
-
-    data = {
-        "msg": user + ' has joined',
-        "members": CHATROOMS[room]['users'],
-        "messages": CHATROOMS[room]['messages'],
-        "room": room
-    }
-    # send only to joining user
-    emit('on_chatroom_change', data, broadcast=False)
-    # send to everybody else without messages
-    emit('on_chatroom_change', {"msg": user + ' has joined', "members": CHATROOMS[room]['users']}, room=room, include_self=False)
+        data = {
+            "msg": user + ' has joined',
+            "members": CHATROOMS[room]['users'],
+            "messages": CHATROOMS[room]['messages'],
+            "room": room
+        }
+        # send only to joining user
+        emit('on_chatroom_change', data, broadcast=False)
+        # send to everybody else without messages
+        emit('on_chatroom_change', {"msg": user + ' has joined', "members": CHATROOMS[room]['users']}, room=room, include_self=False)
 
 
 @socketio.on('leave')
