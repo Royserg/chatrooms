@@ -94,8 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // place chatroom name on the navbar
             document.querySelector('#nav-chatroom').innerHTML = e.target.textContent;
-            // store chatroom name in localStorage
-            localStorage.setItem('chatroom', e.target.textContent);
+            
             // close modal
             sideNav.close();
 
@@ -197,6 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 chatbox.innerHTML += bubble;
             })
+
+            // place chatroom name on the navbar
+            document.querySelector('#nav-chatroom').innerHTML = data.room;
+            // save it into localStorage
+            console.log(data.room);
+            localStorage.setItem('chatroom', data.room);
 
             // scroll div to the bottom
             chatbox.scrollTop = chatbox.scrollHeight;

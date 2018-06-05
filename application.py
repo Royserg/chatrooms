@@ -61,7 +61,8 @@ def join(data):
     data = {
         "msg": user + ' has joined',
         "members": CHATROOMS[room]['users'],
-        "messages": CHATROOMS[room]['messages']
+        "messages": CHATROOMS[room]['messages'],
+        "room": room
     }
     # send only to joining user
     emit('on_chatroom_change', data, broadcast=False)
