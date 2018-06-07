@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 socketio = SocketIO(app)
 
-COUNTER = 0
 CHATROOMS = {
     "Global": {
         "users": [],
@@ -160,5 +159,5 @@ def on_disconnect():
 
 
 if __name__ == "__main__":
-    # app.config['DEBUG'] = True
+    app.config['DEBUG'] = True
     socketio.run(app)
