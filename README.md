@@ -17,4 +17,11 @@ ___
 
 * Real Time chat
 
-![Real time chat](./docs/chat.gif "real time chat")
+![Real time chat](./docs/real_chat.gif "real time chat")
+
+
+* Creating new chatroom
+
+![New Chatroom](./docs/new_room.gif "create new chatroom")
+___
+**CSS Framework: [Materializecss](https://materializecss.com/ "materializecss framework")**
