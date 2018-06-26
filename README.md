@@ -2,7 +2,11 @@
 
 #### [Demo on Heroku](https://msg-rooms.herokuapp.com/ "chatrooms - deployed")
 
-Chatroom app built with Flask and [flask-SocketIO](http://flask-socketio.readthedocs.io/en/latest/ "flask-socketIO docs"). Data is stored server-side in a Python dictionary. No database.
+Technologies used:
+* Frontend: Vanilla JS + socketIO
+* CSS framework: MaterializeCSS
+* Backend: Python - Flask + [flask-SocketIO](http://flask-socketio.readthedocs.io/en/latest/ "flask-socketIO docs")
+* Data is stored server-side in a Python dictionary. No database used.
 
 ___
 ### Overview
