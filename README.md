@@ -3,8 +3,8 @@
 #### [Demo on Heroku](https://msg-rooms.herokuapp.com/ "chatrooms - deployed")
 
 Technologies used:
-* Frontend: Vanilla JS + socketIO
-* CSS framework: MaterializeCSS
+* Frontend: Vanilla JS + [SocketIO](https://socket.io/docs/ "SocketIO docs")
+* CSS framework: [MaterializeCSS](https://materializecss.com/ "MaterializeCSS docs")
 * Backend: Python - Flask + [flask-SocketIO](http://flask-socketio.readthedocs.io/en/latest/ "flask-socketIO docs")
 * Data is stored server-side in a Python dictionary. No database used.
 
